@@ -20,7 +20,7 @@ FROM adoptopenjdk/openjdk8:ubi-jre
 
 # Copy over app from builder image into the runtime image.
 RUN mkdir /opt/app
-COPY --from=builder /target/maven-status/spring-boot-jpa-postgresql-v2-0.0.1-SNAPSHOT.jar /opt/app/app.jar
+COPY --from=builder /target/maven-status/spring-boot-jpa-postgresql-0.0.1-SNAPSHOT.jar /opt/app/app.jar
 
 ENV PORT 8080
 
