@@ -3,12 +3,13 @@ FROM ibmjava:8-sdk AS builder
 WORKDIR /app
 RUN apt-get update \
   && apt-get install -y --no-install-recommends maven=3.6.0-1~18.04.1
+RUN apt-get install -y apt-utils
 
 COPY pom.xml .
-RUN mvn -N io.takari:maven:wrapper -Dmaven=3.5.0
+RUN mvn -N io.takari:maven:wrapper -Dmaven=0.5.6
 
 COPY . /app
-RUN ./mvnw install
+RUN ./mvnw clean install
 
 ARG bx_dev_user=root
 ARG bx_dev_userid=1000
