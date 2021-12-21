@@ -1,4 +1,4 @@
-FROM ibmjava:8-sdk AS builder
+FROM adoptopenjdk/openjdk8 AS builder
 
 WORKDIR /app
 RUN apt-get update \
