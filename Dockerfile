@@ -1,15 +1,20 @@
-#
-# Build stage
-#
-FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+FROM openjdk:15-jdk-slim as bulid
+WORKDIR application
 
-#
-# Package stage
-#
-FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/spring-boot-jpa-postgresql-0.0.1-SNAPSHOT.jar /usr/local/lib/demo.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"]
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+
+RUN ./mvnw  install -DskipTests
+
+RUN cp /application/target/*.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+FROM openjdk:15-jdk-slim
+WORKDIR application
+COPY --from=bulid application/dependencies/ ./
+COPY --from=bulid application/spring-boot-loader/ ./
+COPY --from=bulid application/snapshot-dependencies/ ./
+COPY --from=bulid application/application/ ./
+ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
