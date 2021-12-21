@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk8 AS builder
+FROM adoptopenjdk/openjdk8:debian AS builder
 
 WORKDIR /app
 RUN apt-get update \
@@ -6,7 +6,7 @@ RUN apt-get update \
 RUN apt-get install -y apt-utils
 
 COPY pom.xml .
-RUN mvn -N io.takari:maven:wrapper -Dmaven=0.5.6
+RUN mvn -N io.takari:maven:wrapper -Dmaven=3.5.6
 
 COPY . /app
 RUN ./mvnw clean install
