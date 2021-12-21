@@ -6,7 +6,8 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-RUN mvnw install -DskipTests
+RUN chmod +x /application/mvnw 
+RUN /application/mvnw install -DskipTests
 
 RUN cp /application/target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
