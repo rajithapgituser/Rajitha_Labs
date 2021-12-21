@@ -1,6 +1,6 @@
 # Spring Boot JPA PostgreSQL example with Maven
 
-For instruction, please visit:
+For instruction, please visit :
 > [Spring Boot PostgreSQL with Maven example using Spring Data JPA](https://bezkoder.com/spring-boot-postgresql-example/)
 
 More practice:
